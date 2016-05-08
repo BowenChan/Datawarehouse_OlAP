@@ -43,9 +43,10 @@ GROUP BY
 	
 		if($row[0] != 0){
 			//selects a specific keyword to access
-			$query = mysqli_query($dbc, "SELECT product_key FROM `". $product . "`");
+			$query = mysqli_query($dbc, "SELECT product_key, brand, day_of_week FROM `". $product . "`, `". $time . "` WHERE `day_of_week` = 'Tuesday' ");
 			while($row = mysqli_fetch_assoc($query)){
-				echo "<p>" . $row['product_key'] . "</p>";
+				echo "<p>" . $row['product_key'] . " + " . $row['brand'] . "</p>";
+				echo "<p>" . $row['day_of_week'] . "</p>";
 			}	
 		}
 	?>
