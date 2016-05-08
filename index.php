@@ -9,34 +9,55 @@
 	<title> Olap Gui</title>
 </head>
 <body>
-	<?php
-		#$link = mysqli_con
-		/**$query2 = mysqli_query($dbc, "SELECT
-	`description`,
-	`city`,
-    `day_of_week`,
-    `store_county`,
-    sum(Sales.dollar_sales) AS `Dollar_Sales`
-    FROM
-    `". $product ."`" . "as P,
-   	 `".  $store . "`" . "as S,
-    `". $time . "`" . "as T,
-    `" . $salesFact ."` as Sales
-	WHERE
-	
-	Sales.product_key = P.product_key AND
-    Sales.store_key = S.store_key AND
-    T.time_key AND Sales.time_key 
-    
-    
-GROUP BY
-	P.description,
-    S.city,
-    S.store_county,
-    T.day_of_week
-    ");*/
+	<button type = "button" id = "centralCube"> Central Cube </button>
+	<button type = "button" id = "rollUp"> Roll Up </button>
+	<button type = "button" id = "drillDown"> Drill Down </button>
+	<button type = "button" id = "slice"> Slice </button>
+	<button type = "button" id = "dice"> Dice </button>
 
-    	//Checks if there are any data inside the table
+	<script>
+		document.getElementById("centralCube").onclick = function(){
+			centralCube();
+		};
+
+		document.getElementById("rollUp").onclick = function(){
+			rollUp("Hierachy");
+		}
+
+		document.getElementById("drillDown").onclick = function(){
+			drillDown();
+		}
+
+		document.getElementById("slice").onclick = function(){
+			slice();
+		}
+
+		document.getElementById("dice").onclick = function(){
+			dice();
+		}
+
+		function centralCube() {
+			alert("You have now accessed the Central Cube");
+		}
+
+		function rollUp(word){
+			alert("You are rolling up by ".concat(word))
+		}
+
+		function drillDown(){
+			alert("You are drilling down");
+		}
+
+		function slice(){
+			alert("You are slicing");
+		}
+
+		function dice(){
+			alert("You are dicing");
+		}
+	</script>
+	<?php
+
 		$query = mysqli_query($dbc, "SELECT COUNT(*) FROM `". $product . "`");
 
 		$row = mysqli_fetch_array($query, MYSQLI_NUM);
