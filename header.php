@@ -1,49 +1,94 @@
 
-	<button type = "button" id = "centralCube"> Central Cube </button>
-	<form action = "rollup.php" method = "Post">
-		<button type = "submit" id = "rollUp"> Roll Up </button>
-		<input value = "Hierarchy" type = "radio" name = "rollUpB"> Hierarchy
-		<input value = "Dimension" type = "radio" name = "rollUpB"> Radio
-	</form>
+	<form method = "POST" id = 'cube' onclick = 'return submitForm()' action = ''>
+		
+		<button type = "button" id = "centralCube" action = "./"> Central Cube </button>
 
-	<form action = "" method = "Post">
-		<button type = "button" id = "drillDown"> Drill Down </button>
-		<input value = "Hierarchy" type = "radio" name = "drillDownB"> Hierarchy
-		<input value = "Dimension" type = "radio" name = "drillDownB"> Dimension
-	</form>
+		<button type = "submit" name = "submitB" id = "rollUp" pressed = 'false' value = 'rollUp'> Roll Up </button>
+			<input value = "HierarchyR" type = "radio" name = "rollUpB"> Hierarchy
+			<input value = "DimensionR" type = "radio" name = "rollUpB"> Dimension
 
-	<form action = "" method = "Post">
+		<button type = "submit" name = "submitB" id = "drillDown" pressed ='false' value = 'drillDown' > Drill Down </button>
+			<input value = "HierarchyD" type = "radio" name = "drillDownB"> Hierarchy
+			<input value = "DimensionD" type = "radio" name = "drillDownB"> Dimension
+
 		<button type = "button" id = "slice"> Slice </button>
+
+		<button type = "button" id = "dice"> Dice </button>
+
 	</form>
 
-	<form action = "" method = "Post">
-		<button type = "button" id = "dice"> Dice </button>
-	</form>
-	
+	<?php
+		if(isset($_POST['submit']))
+		{
+
+		}
+	?>
 		<script>
+
+		function submitForm(){
+			
+			var i;
+			var j;
+			var radios;
+			var submitButtons = document.getElementsByName('submitB');
+			
+			for(i = 0; i < submitButtons.length;i++)
+			{
+				
+				//alert(submitButtons[i].values.concast("  ").concat(submitButtons[i].pressed));
+				if(submitButtons[i].pressed)
+				{
+					switch(submitButtons[i].id){
+						case 'rollUp':
+							radios = document.getElementsByName('rollUpB');
+							for(j = 0; j < radios.length; j++)
+							{
+								if(radios[j].checked){
+									document.getElementById('cube').action = 'rollup.php';
+								}
+							}
+							resetPressed();
+							return true;
+						case 'drillDown':
+							radios = document.getElementsByName('drillDownB');
+							for(j = 0; j < radios.length; j++)
+							{
+								if(radios[j].checked){
+									document.getElementById('cube').action = 'drilldown.php';
+								}
+							}
+							resetPressed();
+							return true;
+						default :
+							alert("This is not  valid");
+							return false;
+					}
+
+				}
+			}
+			
+		};
+
+		function resetPressed(){
+			var submitButtons = document.getElementsByName('submitB');
+			var i;
+			for(i = 0; i< submitButtons.length;i++){
+				submitButtons[i].pressed ='false';
+			}
+		};
 		document.getElementById("centralCube").onclick = function(){
 			centralCube();
 		};
 
 		document.getElementById("rollUp").onclick = function(){
-			var i;
-
-			var radios = document.getElementsByName("rollUpB");
-
-			for(i = 0, length = radios.length; i < length;i++)
-				if(radios[i].checked){
-					rollUp(radios[i].value);
-					break;
-				}
-				else{
-					alert("Please select one of the ways to roll up by");
-					return false;
-				}
-		}
+			document.getElementById('rollUp').pressed = true;
+			document.getElementById('drillDown').pressed = false;
+		};
 
 		document.getElementById("drillDown").onclick = function(){
-			drillDown();
-		}
+			document.getElementById('drillDown').pressed = true;
+			document.getElementById('rollUp').pressed = false;
+		};
 
 		document.getElementById("slice").onclick = function(){
 			slice();
@@ -58,11 +103,11 @@
 		}
 
 		function rollUp(word){
-			alert("You are rolling up by ".concat(word))
+			alert("You are rolling up by ".concat(word));
 		}
 
-		function drillDown(){
-			alert("You are drilling down");
+		function drillDown(word){
+			alert("You are drilling down by ".concat(word));
 		}
 
 		function slice(){

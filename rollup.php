@@ -7,11 +7,12 @@
 </head>
 
 <body>
+    <button type = "submit" id = "centralCube" onclick = "javascript:window.location='./'"> Central Cube </button>
     <table>
         
         <?php
        
-            if($_POST['rollUpB'] == 'Hierarchy'){
+            if($_POST['rollUpB'] == 'HierarchyR'){
         
     
                 $sql = "select store_state, department ,day_of_week, sum(dollar_sales) AS Dollar_Sales
@@ -20,12 +21,12 @@
                         Group By store_state, department, day_of_week;" ;
 
                 $result = $conn->query($sql);
-                echo " <tr>
-            <th>store_state</th>
-            <th>department</th>                             
-            <th>day_of_week</th>
-            <th>Dollar_Sales</th>
-        </tr>";
+                echo    "<tr>
+                            <th>store_state</th>
+                            <th>department</th>                             
+                            <th>day_of_week</th>
+                            <th>Dollar_Sales</th>
+                        </tr>";
                  
                 while($row = $result->fetch_assoc()) {
                        echo "<tr>";
@@ -41,7 +42,7 @@
                     echo "</tr>";
                 }
             }
-            elseif ($_POST['rollUpB'] == 'Dimension')
+            elseif ($_POST['rollUpB'] == 'DimensionR')
             {
                 $sql = "select store_county, department, sum(dollar_sales) AS Dollar_Sales
                         From Store S, Product P, Time T, SalesFact F
@@ -49,12 +50,11 @@
                         Group By store_county, department;" ;
 
                 $result = $conn->query($sql);
-                echo "        <tr>
-            <th>store_state</th>
-            <th>department</th>                             
-            
-            <th>Dollar_Sales</th>
-        </tr>";
+                echo    "<tr>
+                            <th>store_state</th>
+                            <th>department</th>                             
+                            <th>Dollar_Sales</th>
+                        </tr>";
                 while($row = $result->fetch_assoc()) {
                     echo "<tr>";
                     
