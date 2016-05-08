@@ -9,19 +9,42 @@
 	<title> Olap Gui</title>
 </head>
 <body>
-	<button type = "button" id = "centralCube"> Central Cube </button>
-	<button type = "button" id = "rollUp"> Roll Up </button>
-	<button type = "button" id = "drillDown"> Drill Down </button>
-	<button type = "button" id = "slice"> Slice </button>
-	<button type = "button" id = "dice"> Dice </button>
 
+	<button type = "button" id = "centralCube"> Central Cube </button>
+	<form action = "" method = "Post">
+		<button type = "button" id = "rollUp"> Roll Up </button>
+		<input value = "hierarchy" type = "radio" name = "rollUpB"> Hierarchy
+		<input value = "dimension" type = "radio" name = "rollUpB"> Radio
+	</form>
+	
+	<form action = "" method = "Post">
+		<button type = "button" id = "drillDown"> Drill Down </button>
+		<input value = "Hierarchy" type = "radio" name = "drillDownB"> Hierarchy
+		<input value = "Dimension" type = "radio" name = "drillDownB"> Dimension
+	</form>
+
+	<form action = "" method = "Post">
+		<button type = "button" id = "slice"> Slice </button>
+	</form>
+
+	<form action = "" method = "Post">
+		<button type = "button" id = "dice"> Dice </button>
+	</form>
 	<script>
 		document.getElementById("centralCube").onclick = function(){
 			centralCube();
 		};
 
 		document.getElementById("rollUp").onclick = function(){
-			rollUp("Hierachy");
+			var i;
+
+			var radios = document.getElementsByName("rollUpB");
+
+			for(i = 0, length = radios.length; i < length;i++)
+				if(radios[i].checked){
+					rollUp(radios[i].value);
+					break;
+				}
 		}
 
 		document.getElementById("drillDown").onclick = function(){

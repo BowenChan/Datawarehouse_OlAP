@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<?php include('dbconnect.php');?>
 <html>
 <head>
     <title>Olap</title>
@@ -14,18 +15,7 @@
             <th>Dollar_Sales</th>
         </tr>
         <?php
-        
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "datawarehouse";
-
-            // Create connection
-            $conn = new mysqli($servername, $username, $password, $dbname);
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            } 
+       
             //Central Cube 
             $sql = "select store_county, department ,day_of_week, sum(dollar_sales) AS Dollar_Sales
                     From Store S, Product P, Time T, SalesFact F
