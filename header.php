@@ -11,9 +11,9 @@
 			<input value = "HierarchyD" type = "radio" name = "drillDownB"> Hierarchy
 			<input value = "DimensionD" type = "radio" name = "drillDownB"> Dimension
 
-		<button type = "button" id = "slice"> Slice </button>
+		<button type = "submit" name = "submitB" pressed = 'false' id = "slice" value = 'slice'> Slice </button>
 
-		<button type = "button" id = "dice"> Dice </button>
+		<button type = "submit" name = "submitB" pressed = 'false' id = "dice" value = 'dice'> Dice </button>
 
 	</form>
 
@@ -59,6 +59,14 @@
 							}
 							resetPressed();
 							return true;
+						case 'slice':
+							document.getElementById('cube').action = 'slice.php';
+							resetPressed();
+							return true;
+						case 'dice':
+							document.getElementById('cube').action = 'dice.php';
+							resetPressed();
+							return true;
 						default :
 							alert("This is not  valid");
 							return false;
@@ -83,38 +91,34 @@
 		document.getElementById("rollUp").onclick = function(){
 			document.getElementById('rollUp').pressed = true;
 			document.getElementById('drillDown').pressed = false;
+			document.getElementById('slice').pressed = false;
+			document.getElementById('dice').pressed = false;
 		};
 
 		document.getElementById("drillDown").onclick = function(){
 			document.getElementById('drillDown').pressed = true;
 			document.getElementById('rollUp').pressed = false;
+			document.getElementById('slice').pressed = false;
+			document.getElementById('dice').pressed = false;
 		};
 
 		document.getElementById("slice").onclick = function(){
-			slice();
+			document.getElementById('rollUp').pressed = false;
+			document.getElementById('drillDown').pressed = false;
+			document.getElementById('slice').pressed = true;
+			document.getElementById('dice').pressed = false;
+
 		}
 
 		document.getElementById("dice").onclick = function(){
-			dice();
+			document.getElementById('rollUp').pressed = false;
+			document.getElementById('drillDown').pressed = false;
+			document.getElementById('slice').pressed = false;
+			document.getElementById('dice').pressed = true;
 		}
 
 		function centralCube() {
 			alert("You have now accessed the Central Cube");
 		}
 
-		function rollUp(word){
-			alert("You are rolling up by ".concat(word));
-		}
-
-		function drillDown(word){
-			alert("You are drilling down by ".concat(word));
-		}
-
-		function slice(){
-			alert("You are slicing");
-		}
-
-		function dice(){
-			alert("You are dicing");
-		}
 	</script>
