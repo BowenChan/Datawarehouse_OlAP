@@ -7,6 +7,8 @@
 </head>
 
 <body>
+     <button type = "submit" id = "centralCube" onclick = "javascript:window.location='./'"> Central Cube </button>
+    
     <table>
 
         <?php

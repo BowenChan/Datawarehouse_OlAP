@@ -1,8 +1,8 @@
 
 	<form method = "POST" id = 'cube' onclick = 'return submitForm()' action = ''>
 		
-		<button type = "button" id = "centralCube" action = "./"> Central Cube </button>
 
+		<button type = "button" id = "centralCube" href = "index.php"> Central Cube </button>
 		<button type = "submit" name = "submitB" id = "rollUp" pressed = 'false' value = 'rollUp'> Roll Up </button>
 			<input value = "HierarchyR" type = "radio" name = "rollUpB"> Hierarchy
 			<input value = "DimensionR" type = "radio" name = "rollUpB"> Dimension
