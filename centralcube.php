@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
-<?php include('dbconnect.php');?>
+<?php include('dbconnect.php');
+?>
 <html>
 <head>
     <title>Olap</title>
@@ -15,12 +16,12 @@
             <th>Dollar_Sales</th>
         </tr>
         <?php
-       
+        
             //Central Cube 
-            $sql = "select store_county, department ,day_of_week, sum(dollar_sales) AS Dollar_Sales
+            $sql = "select ".$_SESSION['store']. ", ". $_SESSION['product'] ." ," .$_SESSION['time'] .", sum(dollar_sales) AS Dollar_Sales
                     From Store S, Product P, Time T, SalesFact F
                     Where  S.store_key = F.store_key AND P.product_key = F.product_key AND T.time_key = F.time_key
-                    Group By store_county, department, day_of_week;" ;
+                    Group By ".$_SESSION['store']. ", ". $_SESSION['product'] ." ," .$_SESSION['time'] .";" ;
 
             $result = $conn->query($sql);
             
