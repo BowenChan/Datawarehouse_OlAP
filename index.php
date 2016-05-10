@@ -2,57 +2,9 @@
 
 <html>
 <head>
+	<link rel = "stylesheet" type="text/css" href="style/style.css"/>
     <title>Home Page</title>
-    <style>
-        
-        .container{
-            width: 900px;
-            background-color: #0D0D0D;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        body{
-            background-color: #444444;
-        }
-        h1,h2{
-            text-align: center;
-            padding: 20px;
-            color: #DDDDDD;
-            text-shadow: 2px 2px black;
-        }
-        img{
-            border: solid 1px #ccc;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 600px;
-            height: 500px;
-            box-shadow: 10px 10px 5px #888888;
-        }
-        p{
-            color: #DDDDDD;
-            padding-left: 30px;
-            
-        }
-
-        input {
-            background-color: #AA2712;
-            color: white;
-            padding: 16px;
-            font-size: 16px;
-            margin-left: 30px; 
-            border: none;
-            cursor: pointer;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        }
-
-
-        input:hover{
-            background-color: #299195;
-        }
-
-        
-    </style>
+    
 </head>
 
 <body>

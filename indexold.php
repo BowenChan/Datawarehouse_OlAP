@@ -8,7 +8,7 @@
 <head>
 	<title> Olap Gui</title>
 </head>
-<body>
+<body onload = "javascript:setCentralCube()">
 
 
 	<?php include("header.php");
