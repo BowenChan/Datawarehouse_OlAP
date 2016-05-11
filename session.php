@@ -57,12 +57,13 @@
 	};
 
     function increaseHierarchy($sessionVar){
-    	echo $_SESSION[$sessionVar];
-    	echo "<br>";
         $_SESSION[$sessionVar] = $_SESSION[$sessionVar] + 1;
-        echo $_SESSION[$sessionVar];
     };
 
+    function decreaseHierarchy($sessionVar){
+    	$_SESSION[$sessionVar] = $_SESSION[$sessionVar] - 1;
+    };
+    
     function iterateAttributes($select){
         $length = count($_SESSION['attributes']);
         $i = 0;

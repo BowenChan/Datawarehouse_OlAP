@@ -8,7 +8,7 @@
 <html>
 <head>
 <link rel = "stylesheet" type="text/css" href="style/style.css"/>
-   
+
     <title>Olap</title>
 </head>
 
@@ -22,8 +22,6 @@
             #Going +1 OF THE ARRAY
             if(isset($_POST['Hierarchy'])){
                 increaseHierarchy(lcfirst($_POST['Hierarchy']));
-                //$_SESSION[lcfirst($_POST['Hierarchy'])] = $_SESSION[lcfirst($_POST['Hierarchy'])] + 1;
-                echo  lcfirst($_POST['Hierarchy'])  ;
             }
 
             # Removing a column
