@@ -7,13 +7,13 @@
 </head>
 
 <body>
-     <button type = "submit" id = "centralCube" onclick = "javascript:window.location='./'"> Central Cube </button>
+    <button type = "submit" id = "centralCube" onclick = "javascript:window.location='./'"> Central Cube </button>
     
     <table>
 
         <?php
        
-            if($_POST['drillDownB'] == 'HierarchyD'){
+            if(isset($_POST['Hierarchy'])){
                  
                 $sql = "select city, department ,day_of_week, sum(dollar_sales) AS Dollar_Sales
                         From Store S, Product P, Time T, SalesFact F
@@ -41,7 +41,7 @@
                     echo "</tr>";
                 }
             }
-            elseif($_POST['drillDownB'] == 'DimensionD'){
+            elseif(isset($_POST['Dimension'])){
                 $sql = "select store_county, department ,day_of_week, price_reduction_type, sum(dollar_sales) AS Dollar_Sales
                         From Store S, Product P, Time T, Promotion Pro, SalesFact F
                         Where  S.store_key = F.store_key AND P.product_key = F.product_key AND T.time_key = F.time_key AND Pro.promotion_key = F.promotion_key

@@ -4,8 +4,8 @@
 	session_start();
 
 	#Setting the dynamic session variables
-	$_SESSION['allAttributes'] = array("time", "product", "store", "promotion");
-	$_SESSION['attributes'] = array("time", "product", "store");
+	$_SESSION['allAttributes'] = array("store", "product", "time", "promotion");
+	$_SESSION['attributes'] = array("store", "product", "time");
 	$_SESSION['time'] = 1;
 	$_SESSION['product'] = 7;
 	$_SESSION['store'] = 4;
