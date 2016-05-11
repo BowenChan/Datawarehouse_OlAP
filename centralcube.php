@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 
 <?php include('dbconnect.php');
+    session_start();
 ?>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="style/style.css">
     <title>Olap</title>
 </head>
 
 <body>
+    <button type = "submit" id = "centralCube" onclick = "javascript:window.location='./'"> Central Cube </button>
+    
     <table>
         <tr>
             <th>store_county</th>
@@ -18,10 +22,10 @@
         <?php
         
             //Central Cube 
-            $sql = "select ".$_SESSION['store']. ", ". $_SESSION['product'] ." ," .$_SESSION['time'] .", sum(dollar_sales) AS Dollar_Sales
+            $sql = "select ".$_SESSION['storeArray'][$_SESSION['store']]. ", ". $_SESSION['productArray'][$_SESSION['product']] ." ," .$_SESSION['timeArray'][$_SESSION['time']] .", sum(dollar_sales) AS Dollar_Sales
                     From Store S, Product P, Time T, SalesFact F
                     Where  S.store_key = F.store_key AND P.product_key = F.product_key AND T.time_key = F.time_key
-                    Group By ".$_SESSION['store']. ", ". $_SESSION['product'] ." ," .$_SESSION['time'] .";" ;
+                    Group By ".$_SESSION['storeArray'][$_SESSION['store']]. ", ". $_SESSION['productArray'][$_SESSION['product']] ." ," .$_SESSION['timeArray'][$_SESSION['time']] .";" ;
 
             $result = $conn->query($sql);
             
