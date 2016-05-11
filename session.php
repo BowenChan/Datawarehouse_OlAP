@@ -1,10 +1,11 @@
 
 <?php session_start();
-
+	include('dbconnect.php');
 #Setting the dynamic session variables
 	function setSessions(){
 	    $_SESSION['allAttributes'] = array("store", "product", "time", "promotion");
 	    $_SESSION['attributes'] = array("store", "product", "time");
+	    $_SESSION['currentSlice'] = array();
 	    $_SESSION['time'] = 1;
 	    $_SESSION['product'] = 7;
 	    $_SESSION['store'] = 4;
@@ -14,6 +15,29 @@
 	    $_SESSION['storeArray'] = array("name", "store_number","store_street_address", "city", "store_county", "store_state", "store_zip","sales_district", "sales_region");
 	    $_SESSION['promotionArray'] = array("promotion_name","price_reduction_type","ad_type", "display_type", "coupon_type", "ad_media","display_provider");
 	}
+
+
+    function grabAllPossibleAttribute($attr){
+    	
+    	$sql = "select distinct " . $_SESSION[$attr."Array"][$_SESSION[$attr]] . " FROM " . ucfirst($attr);
+
+    	// $i = 0;
+    	// foreach ($_SESSION['attributes'] as $attr) {
+    	// 	if(++$i === count($_SESSION['attributes']))
+    	// 		$sql .= $_SESSION[$attr."Array"][$_SESSION[$attr]] . " FROM ";
+    	// 	else
+    	// 		$sql .= $_SESSION[$attr."Array"][$_SESSION[$attr]] . ", ";
+    	// }
+    	// $i = 0;
+    	// foreach ($_SESSION['attributes'] as $attr) {
+    	// 	if(++$i === count($_SESSION['attributes']))
+    	// 		$sql .= ucfirst($attr) . ";";
+    	// 	else
+    	// 		$sql .= ucfirst($attr) . ", ";
+    	// }
+    	  
+    	return $sql;
+    };
 
     function createList($type, $name)
 	{
@@ -47,6 +71,22 @@
 		echo '</div>';
 	};
 
+	function createSpliceList(){
+		foreach ($_SESSION['attributes'] as $attr) {
+
+            $sql = grabAllPossibleAttribute($attr);
+            echo $sql;
+            $result = $conn->query($sql);
+            while($row = $result->fetch_assoc())
+            {
+                buttonCreate($row[$_SESSION[$attr."Array"][$_SESSION[$attr]]]);
+                echo "<br>";
+            }
+        }
+	};
+	function buttonCreate($attr){
+			echo '<input type ="submit" value="' . $attr . '" name="splice">';
+	};
 	function iterateNeededArray(){
 		$newArray = array();
 		foreach ($_SESSION['allAttributes'] as $attr) {
@@ -81,7 +121,9 @@
     function displayTableAttributes($type, $data){
 
         foreach ($_SESSION['attributes'] as $attributes) {
+
             $array = $attributes."Array";
+            
             if($type === "tr"){
                 
                 echo '<th>'. ucfirst($_SESSION[$array][$_SESSION[$attributes]]) .'</th>';
@@ -115,6 +157,7 @@
 
     }
     function createSqlStatement(){
+    	
     	$sql = "select ";
 
     	$sql .= iterateAttributes(False) . " sum(dollar_sales) AS Dollar_Sales ";

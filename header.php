@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
 	#Setting up the session
+    include('dbconnect.php');
 	include_once('session.php');
 	
 ?>
@@ -66,15 +67,28 @@
             <p>Roll up the central cube by removing a dimension</p>
             
             <?php
+
             	createList("rollUp", "Dimension");
         	?>   
         </form>
         
         <form method="post" action="slice.php">
-            <div class = 'inputs'>
-                <p>Slice</p>
-                <input type="submit" value="Slice" />
-            </div>
+            <p>Slice</p>
+                <div class = 'inputs'>         
+                <?php 
+                        foreach ($_SESSION['attributes'] as $attrSplice) {
+
+                            $sqlSplice = grabAllPossibleAttribute($attrSplice);
+                            
+                            $resultSplice = $conn->query($sqlSplice);
+                            while($rowSplice = $resultSplice->fetch_assoc())
+                            {
+                                buttonCreate($rowSplice[$_SESSION[$attrSplice."Array"][$_SESSION[$attrSplice]]]);
+                                //echo "<br>";
+                            }
+                        }
+                ?>
+                </div>
         </form>
         <form method="post" action="dice.php">
             <div class = 'inputs'>

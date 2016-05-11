@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 
-<?php include('dbconnect.php');
+<?php 
     include('session.php');
     
 ?>
@@ -18,7 +18,6 @@
         
         <?php
             
-             
             #Going +1 OF THE ARRAY
             if(isset($_POST['Hierarchy'])){
                 increaseHierarchy(lcfirst($_POST['Hierarchy']));
@@ -36,10 +35,10 @@
             include('header.php');
             echo "<tr>";
             displayTableAttributes("tr", null);
-            echo "</tr>";
+            echo "</tr>";       
             while($row = $result->fetch_assoc()) {
                 echo "<tr>";
-                
+                               
                 displayTableAttributes("td", $row);
 
          
