@@ -72,3 +72,7 @@ input {
 input:hover{
     background-color: #299195;
 }
+
+input[type=submit]:disabled {
+    background: #dddddd;
+}

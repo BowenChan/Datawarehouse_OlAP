@@ -19,9 +19,9 @@
              
             #Going +1 OF THE ARRAY
             if(isset($_POST['Hierarchy'])){
-                //increaseHierarchy($_SESSION[lcfirst($_POST['Hierarchy'])]);
-                $_SESSION[lcfirst($_POST['Hierarchy'])] = $_SESSION[lcfirst($_POST['Hierarchy'])] + 1;
-
+                increaseHierarchy(lcfirst($_POST['Hierarchy']));
+                //$_SESSION[lcfirst($_POST['Hierarchy'])] = $_SESSION[lcfirst($_POST['Hierarchy'])] + 1;
+                echo  lcfirst($_POST['Hierarchy']);
             }
 
             # Removing a column
@@ -34,7 +34,7 @@
                     From Store S, Product P, Time T, SalesFact F
                     Where  S.store_key = F.store_key AND P.product_key = F.product_key AND T.time_key = F.time_key
                     Group By ". iterateAttributes(True);
-            echo iterateAttributes(False);
+           
             $result = $conn->query($sql);
 
             include('header.php');

@@ -10,6 +10,7 @@
 <body>
     <?php
         include_once('session.php');
+        setSessions();
         include('header.php');
         include('dbconnect.php');
         include('selectdb.php');
