@@ -19,7 +19,7 @@
 	{
 		echo '<div class = "inputs">';
 		if($type === "drillDown"){
-			$neededAttributes = iterateArray();
+			$neededAttributes = iterateNeededArray();
 			if($name === 'Dimension'){
 				foreach ($neededAttributes as $attr) {
 	                    echo '<input type="submit" value="'. ucfirst($attr) .'" name="'.$name.'"/>'; 					
@@ -47,7 +47,7 @@
 		echo '</div>';
 	};
 
-	function iterateArray(){
+	function iterateNeededArray(){
 		$newArray = array();
 		foreach ($_SESSION['allAttributes'] as $attr) {
 			if(!in_array($attr, $_SESSION['attributes']))
@@ -63,7 +63,7 @@
     function decreaseHierarchy($sessionVar){
     	$_SESSION[$sessionVar] = $_SESSION[$sessionVar] - 1;
     };
-    
+
     function iterateAttributes($select){
         $length = count($_SESSION['attributes']);
         $i = 0;
@@ -96,4 +96,34 @@
         else if($type === "td")
             echo '<td>' . $data["Dollar_Sales"] . '</td>';
     };  
+
+    function fromAndWhereClause(){
+    	$string = "";
+    	$i = 0;
+    	foreach ($_SESSION['attributes'] as $attr) {
+    		$string .= ucfirst($attr) . " ". substr(ucfirst($attr), 0, 1). ", ";
+    	}
+    	$string .= "SalesFact F Where ";
+    	foreach ($_SESSION['attributes'] as $attr) {
+    		if(++$i === count($_SESSION['attributes']))
+    			$string .= substr(ucfirst($attr), 0, 1) . "." . $attr ."_key = F." .$attr . "_key ";
+			else 
+				$string .= substr(ucfirst($attr), 0, 1) . "." . $attr ."_key = F." .$attr . "_key AND ";
+    	}
+
+    	return $string;
+
+    }
+    function createSqlStatement(){
+    	$sql = "select ";
+
+    	$sql .= iterateAttributes(False) . " sum(dollar_sales) AS Dollar_Sales ";
+
+    	$sql .= "From " . fromAndWhereClause();
+
+    	$sql .= "Group By " . iterateAttributes(True);
+
+
+    	return $sql;
+    }
  ?>

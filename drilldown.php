@@ -22,11 +22,7 @@
                 array_push($_SESSION['attributes'], lcfirst($_POST['Dimension']));
             }
 
-            $sql = "select ". iterateAttributes(False) ." sum(dollar_sales) AS Dollar_Sales
-                        From Store S, Product P, Time T, SalesFact F
-                        Where  S.store_key = F.store_key AND P.product_key = F.product_key AND T.time_key = F.time_key
-                        Group By ". iterateAttributes(True);
-
+            $sql = createSqlStatement();
             $result = $conn->query($sql);
 
             include('header.php');
