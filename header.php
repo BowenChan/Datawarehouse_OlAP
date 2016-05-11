@@ -1,135 +1,86 @@
+<!DOCTYPE html>
+<?php
+	#Setting up the session
+	include_once('session.php');
+	
+?>
+<html>
+<head>
+	<link rel = "stylesheet" type="text/css" href="style/style.css"/>
+    <title>Home Page</title>
+    
+</head>
 
-	<form method = "POST" id = 'cube' onclick = 'return submitForm()' action = ''>
-		
+<body>
+    <div class="container">
+        <h1>Business Intelligence Tool</h1>
+        <img src="ERDiagram.png" alt="Schema" />
+        <br />
+        <br />
 
-		<button type = "button" id = "centralCube" href = "index.php"> Central Cube </button>
-		<button type = "submit" name = "submitB" id = "rollUp" pressed = 'false' value = 'rollUp'> Roll Up </button>
-			<input value = "HierarchyR" type = "radio" name = "rollUpB"> Hierarchy
-			<input value = "DimensionR" type = "radio" name = "rollUpB"> Dimension
+        <!-- Displaying the Current Attributes of the Central Cube -->
 
-		<button type = "submit" name = "submitB" id = "drillDown" pressed ='false' value = 'drillDown' > Drill Down </button>
-			<input value = "HierarchyD" type = "radio" name = "drillDownB"> Hierarchy
-			<input value = "DimensionD" type = "radio" name = "drillDownB"> Dimension
+        <h2> Current Attribute: <?php
+        	$length = count($_SESSION['attributes']);
+        	$i = 0;
+        	
+        	foreach ($_SESSION['attributes'] as $attributes) {
+        		$array = $attributes."Array";
+        		
+        		if(++$i === $length)
+        			echo ucfirst($_SESSION[$array][$_SESSION[$attributes]]) .". ";
+        		else
+        			echo ucfirst($_SESSION[$array][$_SESSION[$attributes]]) .", ";
+        	}
+        ?>
+         </h2>
 
-		<button type = "submit" name = "submitB" pressed = 'false' id = "slice" value = 'slice'> Slice </button>
+         <!-- Viewing the Central Cube -->
+        <form method="post" action="centralCube.php">
+            <p>Display Central Cube</p>
+            <input type="submit" value="Central Cube" />
+        </form>
+        
+        <!-- Drilling down based on the Hierarchy/Dimensions -->
+        <form method="post" action="drillDown.php">
+            <p>Climb down the concept hierarchy</p>
 
-		<button type = "submit" name = "submitB" pressed = 'false' id = "dice" value = 'dice'> Dice </button>
+            <?php
+            	createList("drillDown", "Hierarchy");
+        	?>
 
-	</form>
+            <p>Drill down on the central cube by adding a dimension</p>
+            <?php
+            	createList("drillDown", "Dimension");
+        	?>       
+    	</form>
+        
+        <!-- Rolling up Based on Hierarchy/Dimension -->
+        <form method="post" action="rollUp.php">
+            <p>Climb up the concept hierarchy</p>
+           	<?php
+            	createList("rollUp", "Hierarchy");
+        	?>
+            
+            <p>Roll up the central cube by removing a dimension</p>
+            
+            <?php
+            	createList("rollUp", "Dimension");
+        	?>   
+        </form>
+        
+        <form method="post" action="slice.php">
+            <p>Slice</p>
+            <input type="submit" value="Slice" />
+        </form>
+        <form method="post" action="dice.php">
+            <p>Dice</p>
+            <input type="submit" value="Dice" />
+        </form>
 
-	<?php
-		if(isset($_POST['submit']))
-		{
+        <br/>
+        <br />
+    </div>
 
-		}
-	?>
-		<script>
-
-		var time;
-		var product;
-		var store;
-		var promotion;
-
-		function setCentralCube(){
-			time = ["date", "day_of_week", "day_number_in_month", "week_number_in_year", "week_number_overall","Month", "quarter", "fiscal_period", "year"];
-			product = ["description", "full_description", "sku_number", "package_size", "brand", "subcategory", "category", "department", "package_type", "diet_type"];
-			store = ["name", "store_number","store_street_address", "city", "store_county", "store_state", "store_zip","sales_district", "sales_region"];
-			promotion = ["promotion_name","price_reduction_type","ad_type", "display_type", "coupon_type", "ad_media","display_provider"]
-		}
-		function submitForm(){
-			
-			var i;
-			var j;
-			var radios;
-			var submitButtons = document.getElementsByName('submitB');
-			
-			for(i = 0; i < submitButtons.length;i++)
-			{
-				
-				//alert(submitButtons[i].values.concast("  ").concat(submitButtons[i].pressed));
-				if(submitButtons[i].pressed)
-				{
-					switch(submitButtons[i].id){
-						case 'rollUp':
-							radios = document.getElementsByName('rollUpB');
-							for(j = 0; j < radios.length; j++)
-							{
-								if(radios[j].checked){
-									document.getElementById('cube').action = 'rollup.php';
-								}
-							}
-							resetPressed();
-							return true;
-						case 'drillDown':
-							radios = document.getElementsByName('drillDownB');
-							for(j = 0; j < radios.length; j++)
-							{
-								if(radios[j].checked){
-									document.getElementById('cube').action = 'drilldown.php';
-								}
-							}
-							resetPressed();
-							return true;
-						case 'slice':
-							document.getElementById('cube').action = 'slice.php';
-							resetPressed();
-							return true;
-						case 'dice':
-							document.getElementById('cube').action = 'dice.php';
-							resetPressed();
-							return true;
-						default :
-							alert("This is not  valid");
-							return false;
-					}
-
-				}
-			}
-			
-		};
-
-		function resetPressed(){
-			var submitButtons = document.getElementsByName('submitB');
-			var i;
-			for(i = 0; i< submitButtons.length;i++){
-				submitButtons[i].pressed ='false';
-			}
-		};
-		document.getElementById("centralCube").onclick = function(){
-			centralCube();
-		};
-
-		document.getElementById("rollUp").onclick = function(){
-			document.getElementById('rollUp').pressed = true;
-			document.getElementById('drillDown').pressed = false;
-			document.getElementById('slice').pressed = false;
-			document.getElementById('dice').pressed = false;
-		};
-
-		document.getElementById("drillDown").onclick = function(){
-			document.getElementById('drillDown').pressed = true;
-			document.getElementById('rollUp').pressed = false;
-			document.getElementById('slice').pressed = false;
-			document.getElementById('dice').pressed = false;
-		};
-
-		document.getElementById("slice").onclick = function(){
-			document.getElementById('rollUp').pressed = false;
-			document.getElementById('drillDown').pressed = false;
-			document.getElementById('slice').pressed = true;
-			document.getElementById('dice').pressed = false;
-
-		}
-
-		document.getElementById("dice").onclick = function(){
-			document.getElementById('rollUp').pressed = false;
-			document.getElementById('drillDown').pressed = false;
-			document.getElementById('slice').pressed = false;
-			document.getElementById('dice').pressed = true;
-		}
-
-		function centralCube() {
-			alert("You have now accessed the Central Cube");
-		}
-
-	</script>
+</body>
+</html>

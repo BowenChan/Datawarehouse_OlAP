@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
 <?php include('dbconnect.php');
-    session_start();
+    
+    include_once('session.php');
 ?>
 <html>
 <head>

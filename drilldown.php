@@ -50,7 +50,7 @@
        
             if(isset($_POST['Hierarchy'])){
                  
-              $_SESSION[lcfirst($_POST['Hierarchy'])] += 1;
+              $_SESSION[lcfirst($_POST['Hierarchy'])] -= 1;
     
                 $sql = "select ". iterateAttributes(False) ." sum(dollar_sales) AS Dollar_Sales
                         From Store S, Product P, Time T, SalesFact F

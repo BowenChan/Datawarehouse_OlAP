@@ -1,40 +1,9 @@
 <!DOCTYPE html>
 
+
 <?php include('dbconnect.php');
-    session_start();
-    function iterateAttributes($select){
-        $length = count($_SESSION['attributes']);
-        $i = 0;
-        $string = "";
-        foreach ($_SESSION['attributes'] as $attributes) {
-            $array = $attributes."Array";
-                
-            if(++$i === $length && $select)
-                $string  .= lcfirst($_SESSION[$array][$_SESSION[$attributes]]) .";";
-            else
-                $string .= lcfirst($_SESSION[$array][$_SESSION[$attributes]]) .", ";
-        }
-        return $string;
-    }
-
-    function displayTableAttributes($type, $data){
-
-        foreach ($_SESSION['attributes'] as $attributes) {
-            $array = $attributes."Array";
-            if($type === "tr"){
-                
-                echo '<th>'. ucfirst($_SESSION[$array][$_SESSION[$attributes]]) .'</th>';
-            }
-            elseif ($type === "td"){
-                echo '<td>' . $data[$_SESSION[$array][$_SESSION[$attributes]]] . '</td>';
-                
-            }
-        }
-        if($type === "tr")
-            echo '<th> Dollar_Sales </th>';
-        else if($type === "td")
-            echo '<td>' . $data["Dollar_Sales"] . '</td>';
-    } 
+    include('session.php');
+    
 ?>
 <html>
 <head>
@@ -46,58 +15,46 @@
     <table>
         
         <?php
+                 
+             
             #Going +1 OF THE ARRAY
             if(isset($_POST['Hierarchy'])){
-               $_SESSION[lcfirst($_POST['Hierarchy'])] += 1;
-    
-                $sql = "select ". iterateAttributes(False) ." sum(dollar_sales) AS Dollar_Sales
-                        From Store S, Product P, Time T, SalesFact F
-                        Where  S.store_key = F.store_key AND P.product_key = F.product_key AND T.time_key = F.time_key
-                        Group By ". iterateAttributes(True);
+                //increaseHierarchy($_SESSION[lcfirst($_POST['Hierarchy'])]);
+                $_SESSION[lcfirst($_POST['Hierarchy'])] = $_SESSION[lcfirst($_POST['Hierarchy'])] + 1;
 
-                $result = $conn->query($sql);
-
-                echo "<tr>";
-                displayTableAttributes("tr", null);
-                echo "</tr>";
-                while($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    
-                    displayTableAttributes("td", $row);
-
-             
-                    echo "</tr>";
-                }
             }
 
             # Removing a column
             elseif (isset($_POST['Dimension']))
             {
-                unset($_SESSION['attributes'][array_search(lcfirst($_POST['Dimension']), $_SESSION['attributes'])]);
-                $sql = "select ". iterateAttributes(False) ." sum(dollar_sales) AS Dollar_Sales
-                        From Store S, Product P, Time T, SalesFact F
-                        Where  S.store_key = F.store_key AND P.product_key = F.product_key AND T.time_key = F.time_key
-                        Group By ". iterateAttributes(True);
+                unset($_SESSION['attributes'][array_search(lcfirst($_POST['Dimension']), $_SESSION['attributes'])]);   
+            }
 
-                $result = $conn->query($sql);
+            $sql = "select ". iterateAttributes(False) ." sum(dollar_sales) AS Dollar_Sales
+                    From Store S, Product P, Time T, SalesFact F
+                    Where  S.store_key = F.store_key AND P.product_key = F.product_key AND T.time_key = F.time_key
+                    Group By ". iterateAttributes(True);
+            echo iterateAttributes(False);
+            $result = $conn->query($sql);
 
+            include('header.php');
+            echo "<tr>";
+            displayTableAttributes("tr", null);
+            echo "</tr>";
+            while($row = $result->fetch_assoc()) {
                 echo "<tr>";
-                displayTableAttributes("tr", null);
-                echo "</tr>";
-                while($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    
-                    displayTableAttributes("td", $row);
-
-             
-                    echo "</tr>";
-                }               
                 
+                displayTableAttributes("td", $row);
+
+         
+                echo "</tr>";
             }
             
         ?>
             
         
     </table>
+
+ 
 </body>
 </html>
