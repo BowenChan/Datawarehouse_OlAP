@@ -12,7 +12,7 @@
         
         <?php
        
-            if($_POST['rollUpB'] == 'HierarchyR'){
+            if(isset($_POST['HierarchyR'])){
         
     
                 $sql = "select store_state, department ,day_of_week, sum(dollar_sales) AS Dollar_Sales

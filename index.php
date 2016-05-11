@@ -4,6 +4,7 @@
 	session_start();
 
 	#Setting the dynamic session variables
+	$_SESSION['allAttributes'] = array("time", "product", "store", "promotion");
 	$_SESSION['attributes'] = array("time", "product", "store");
 	$_SESSION['time'] = 1;
 	$_SESSION['product'] = 7;
@@ -13,6 +14,37 @@
 	$_SESSION['productArray'] = array("description", "full_description", "sku_number", "package_size", "brand", "subcategory", "category", "department", "package_type", "diet_type");
 	$_SESSION['storeArray'] = array("name", "store_number","store_street_address", "city", "store_county", "store_state", "store_zip","sales_district", "sales_region");
 	$_SESSION['promotion'] = array("promotion_name","price_reduction_type","ad_type", "display_type", "coupon_type", "ad_media","display_provider");
+
+	function createList($name){
+		foreach ($_SESSION['attributes'] as $attributes) {
+        	echo '<input type="submit" value="'. ucfirst($attributes) .'" name="'.$name.'"/>';
+    	}
+	}
+
+	function dimensionShift($type, $name)
+	{
+		if($type === "drillDown"){
+			$neededAttributes = iterateArray();
+			foreach ($neededAttributes as $attr) {
+				echo '<input type="submit" value="'. ucfirst($attr) .'" name="'.$name.'"/>';
+				
+			}
+		}
+		else if($type === "rollUp"){
+			foreach ($_SESSION['attributes'] as $attributes) {
+	        	echo '<input type="submit" value="'. ucfirst($attributes) .'" name="'.$name.'"/>';
+	    	}
+		}
+	}
+
+	function iterateArray(){
+		$newArray = array();
+		foreach ($_SESSION['allAttributes'] as $attr) {
+			if(!in_array($attr, $_SESSION['attributes']))
+				array_push($newArray,$attr);
+		}
+		return $newArray;
+	}
 ?>
 <html>
 <head>
@@ -55,23 +87,28 @@
         <form method="post" action="drillDown.php">
             <p>Climb down the concept hierarchy</p>
 
-            <?php 
-
-            	foreach ($_SESSION['attributes'] as $attributes) {
-	            	echo '<input type="submit" value="'. ucfirst($attributes) .'" name=". '. $attributes .'."/>';
-            	}
+            <?php
+            	createList("Hierarchy");
         	?>
+
             <p>Drill down on the central cube by adding a dimension</p>
-            <input type="submit" value="DrillDown" name="DimensionD"/>
-        </form>
+            <?php
+            	dimensionShift("drillDown", "Dimension");
+        	?>       
+    	</form>
         
         <!-- Rolling up Based on Hierarchy/Dimension -->
         <form method="post" action="rollUp.php">
             <p>Climb up the concept hierarchy</p>
-            <input type="submit" value="RollUp" name = "HierarchyR"/>
+           	<?php
+            	createList("Hierarchy");
+        	?>
             
             <p>Roll up the central cube by removing a dimension</p>
-            <input type="submit" value="RollUp" name = "DimensionR"/>
+            
+            <?php
+            	dimensionShift("rollUp", "Dimension");
+        	?>   
         </form>
         
         <form method="post" action="slice.php">
