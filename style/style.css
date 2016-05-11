@@ -1,6 +1,7 @@
 *{
 	margin: 0 auto;
 }
+
 table{
 border-collapse: collapse;
 width: 100%;
@@ -26,15 +27,18 @@ background-color: rgb(41, 145, 149);
     margin-left: auto;
     margin-right: auto;
 }
+
 body{
     background-color: #444444;
 }
+
 h1,h2{
     text-align: center;
     padding: 20px;
     color: #DDDDDD;
     text-shadow: 2px 2px black;
 }
+
 img{
     border: solid 1px #ccc;
     display: block;
@@ -44,6 +48,7 @@ img{
     height: 500px;
     box-shadow: 10px 10px 5px #888888;
 }
+
 p{
     color: #DDDDDD;
     font-size: 20px;
@@ -52,19 +57,24 @@ p{
     padding: 10px 0;
     
 }
+
 form {
-	text-align: center;
+	text-align:center;
 }
-input {
+.inputs{
+	text-align:center;
+}
+input[type=submit] {
     background-color: #AA2712;
     color: white;
+    text-align: center;
+
     padding: 16px;
     font-size: 16px;
     margin: 0 5px; 
     border: none;
     cursor: pointer;
- 	text-align: center;
-
+ 	
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 

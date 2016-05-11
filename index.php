@@ -9,7 +9,7 @@
 
 <body>
     <?php
-        include_once('session.php');
+        include('session.php');
         setSessions();
         include('header.php');
         include('dbconnect.php');

@@ -7,6 +7,8 @@
 ?>
 <html>
 <head>
+<link rel = "stylesheet" type="text/css" href="style/style.css"/>
+   
     <title>Olap</title>
 </head>
 
@@ -21,7 +23,7 @@
             if(isset($_POST['Hierarchy'])){
                 increaseHierarchy(lcfirst($_POST['Hierarchy']));
                 //$_SESSION[lcfirst($_POST['Hierarchy'])] = $_SESSION[lcfirst($_POST['Hierarchy'])] + 1;
-                echo  lcfirst($_POST['Hierarchy']);
+                echo  lcfirst($_POST['Hierarchy'])  ;
             }
 
             # Removing a column

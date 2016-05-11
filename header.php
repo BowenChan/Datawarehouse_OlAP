@@ -37,10 +37,11 @@
 
          <!-- Viewing the Central Cube -->
         <form method="post" action="centralCube.php">
-            <p>Display Central Cube</p>
-            <input type="submit" value="Central Cube" />
+            <div class = 'inputs'>
+                <p>Display Central Cube</p>
+                <input type="submit" value="Central Cube" />
+            </div>
         </form>
-        
         <!-- Drilling down based on the Hierarchy/Dimensions -->
         <form method="post" action="drillDown.php">
             <p>Climb down the concept hierarchy</p>
@@ -70,14 +71,17 @@
         </form>
         
         <form method="post" action="slice.php">
-            <p>Slice</p>
-            <input type="submit" value="Slice" />
+            <div class = 'inputs'>
+                <p>Slice</p>
+                <input type="submit" value="Slice" />
+            </div>
         </form>
         <form method="post" action="dice.php">
-            <p>Dice</p>
-            <input type="submit" value="Dice" />
+            <div class = 'inputs'>
+                <p>Dice</p>
+                <input type="submit" value="Dice" />
+            </div>
         </form>
-
         <br/>
         <br />
     </div>

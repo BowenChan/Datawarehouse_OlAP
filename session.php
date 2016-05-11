@@ -1,4 +1,4 @@
-<link rel = "stylesheet" type="text/css" href="style/style.css"/>
+
 <?php session_start();
 
 #Setting the dynamic session variables
@@ -14,8 +14,10 @@
 	    $_SESSION['storeArray'] = array("name", "store_number","store_street_address", "city", "store_county", "store_state", "store_zip","sales_district", "sales_region");
 	    $_SESSION['promotionArray'] = array("promotion_name","price_reduction_type","ad_type", "display_type", "coupon_type", "ad_media","display_provider");
 	}
+
     function createList($type, $name)
 	{
+		echo '<div class = "inputs">';
 		if($type === "drillDown"){
 			$neededAttributes = iterateArray();
 			if($name === 'Dimension'){
@@ -25,7 +27,7 @@
 			}
 			else
 				foreach ($_SESSION['attributes'] as $attr){
-					echo($_SESSION[lcfirst($attr)] -1);
+					
 					if($_SESSION[lcfirst($attr)] - 1 >=	0){
 						echo '<input type="submit" value="'. ucfirst($attr) .'" name="'.$name.'" />';
 					}
@@ -35,13 +37,14 @@
 		}
 		else if($type === "rollUp"){
 			foreach ($_SESSION['attributes'] as $attributes) {
-                echo $_SESSION[lcfirst($attributes)];
+               
                 if($_SESSION[lcfirst($attributes)] + 1 >= count($_SESSION[lcfirst($attributes."Array")]) && $name === 'Hierarchy')
     	        	echo '<input type="submit" value="'. ucfirst($attributes) .'" name="'.$name.'" disabled="disabled"/>';
                 else
                     echo '<input type="submit" value="'. ucfirst($attributes) .'" name="'.$name.'"/>'; 
 	    	}
 		}
+		echo '</div>';
 	};
 
 	function iterateArray(){
