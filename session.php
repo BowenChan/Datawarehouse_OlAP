@@ -184,11 +184,12 @@
     		else
     			$firstLetter = substr(ucfirst($attr), 0, 1);
 
-    		if($_SESSION['currentSlice'][0][0] === 'promotion'){
+    		if(isset($_SESSION['currentSlice'][0][0]) && $_SESSION['currentSlice'][0][0] === 'promotion'){
     			$secondLetter = substr(ucfirst($_SESSION['currentSlice'][0][0]), 0, 2);
     		}
-    		else
+    		else if(isset($_SESSION['currentSlice'][0][0]))
     			$secondLetter = substr(ucfirst($_SESSION['currentSlice'][0][0]), 0, 1);
+    		
     		if(!$slice){
 	    		if(++$i === count($_SESSION['attributes'])){
 	    			

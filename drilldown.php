@@ -28,6 +28,7 @@
 
             include('header.php');
 
+
             displayTableAttributes("tr", null);
             echo "</tr>";
             while($row = $result->fetch_assoc()) {
