@@ -94,13 +94,20 @@
 		return $returnArray;
 	}
 
+
 	function buttonCreate($type, $attr){
 		$sliceArray = retrieveFirstElements();
-	
+		
+
 		if(!in_array($type, $sliceArray)) {
 			echo '<input type ="submit" value="' .  ucfirst($type) . " | " . $attr  . '" name="slice">';
 			# code...\
 		}
+		else
+			if($attr === $_SESSION['currentSlice'][0][1])
+				echo '<input type ="submit" value="' .  ucfirst($type) . " | " . $attr  . '" name="slice" disabled>';
+			else
+				echo '<input type ="submit" value="' .  ucfirst($type) . " | " . $attr  . '" name="slice">';
 	
 	};
 	
