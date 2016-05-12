@@ -31,9 +31,11 @@
             $sql = createSqlStatement(True, $sliceImplode[1]);
             $result = $conn->query($sql);
             include('header.php');
+            echo $sql;
             
             echo "<tr>";
             displayTableAttributes("tr", null);
+
             echo "</tr>";
             while($row = $result->fetch_assoc()) {
                 echo "<tr>";

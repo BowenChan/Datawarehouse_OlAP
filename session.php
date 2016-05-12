@@ -183,6 +183,12 @@
     		}
     		else
     			$firstLetter = substr(ucfirst($attr), 0, 1);
+
+    		if($_SESSION['currentSlice'][0][0] === 'promotion'){
+    			$secondLetter = substr(ucfirst($_SESSION['currentSlice'][0][0]), 0, 2);
+    		}
+    		else
+    			$secondLetter = substr(ucfirst($_SESSION['currentSlice'][0][0]), 0, 1);
     		if(!$slice){
 	    		if(++$i === count($_SESSION['attributes'])){
 	    			
@@ -194,7 +200,7 @@
 			else
 				if(++$sliceCounter === count($_SESSION['attributes'])){
 					$arrayVar = $_SESSION['currentSlice'][0][0] . "Array";
-					$string .= $firstLetter . "." . $attr ."_key = F." .$attr . "_key AND " . $firstLetter . "." . $_SESSION[$arrayVar][$_SESSION[$_SESSION['currentSlice'][0][0]]] . "='" . $spliceKeyword . "'";
+					$string .= $firstLetter . "." . $attr ."_key = F." .$attr . "_key AND " . $secondLetter . "." . $_SESSION[$arrayVar][$_SESSION[$_SESSION['currentSlice'][0][0]]] . "='" . $spliceKeyword . "' ";
 				}
 				else 
 					$string .= $firstLetter . "." . $attr ."_key = F." .$attr . "_key AND ";
