@@ -39,6 +39,9 @@ h1,h2{
     text-shadow: 2px 2px black;
 }
 
+h2{
+	padding: 0 20px;
+}
 img{
     border: solid 1px #ccc;
     display: block;
@@ -85,6 +88,7 @@ button{
 input:hover{
     background-color: #299195;
 }
+
 #centralCube{
 	text-align:center;
 	font-size: 20px;

@@ -32,6 +32,7 @@
 <body>
     <div class="container">
         <h1>Business Intelligence Tool</h1>
+        <h2> By: Bowen Chan, Naghmeh Anvari, Battista Egcasenza </h2>
         <img src="ERDiagram.png" alt="Schema" />
         <br />
         <br />
