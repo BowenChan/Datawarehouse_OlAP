@@ -94,7 +94,7 @@
             <p>Slice</p>
                 <div class = 'inputs'>         
                 <?php 
-                        echo "Inside";
+                
                         foreach ($_SESSION['attributes'] as $attrSlice) {
                             $sqlSlice = grabAllPossibleAttribute($attrSlice);
                             $resultSlice = $conn->query($sqlSlice);
