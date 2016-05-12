@@ -175,7 +175,7 @@
     		$firstLetter = substr(ucfirst($attr), 0, 1);
     		if(!$slice){
 	    		if(++$i === count($_SESSION['attributes'])){
-	    			echo "Checking this one <br> <br>";
+	    			
 	    			$string .= $firstLetter . "." . $attr ."_key = F." .$attr . "_key ";
 	    		}
 				else

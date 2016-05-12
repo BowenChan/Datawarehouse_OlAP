@@ -7,9 +7,26 @@
 ?>
 <html>
 <head>
+
 	<link rel = "stylesheet" type="text/css" href="style/style.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
     <title>Home Page</title>
+    <script type="text/javascript">
+        $(document).ready(function() {
     
+            $(".centralCube").on("click", function( e ) {
+        
+            e.preventDefault();
+        
+            $("body, html").animate({ 
+                scrollTop: $( $(this).attr('href') ).offset().top 
+            }, 600);
+        
+            });
+        
+        });
+    </script>
 </head>
 
 <body>
@@ -37,10 +54,10 @@
          </h2>
 
          <!-- Viewing the Central Cube -->
-        <form method="post" action="centralCube.php">
+        <form method="post"> <!-- action="centralCube.php"> -->
             <div class = 'inputs'>
                 <p>Display Central Cube</p>
-                <input type="submit" value="Central Cube" />
+                <input type="submit" value="Central Cube" class = "centralCube" href = "#centralCube" />
             </div>
         </form>
         <!-- Drilling down based on the Hierarchy/Dimensions -->
@@ -98,6 +115,8 @@
         <br/>
         <br />
     </div>
-
+    
+    <div id ="centralCube"> Current Central Cube</div>
 </body>
+    
 </html>

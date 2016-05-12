@@ -13,7 +13,9 @@
 </head>
 
 <body>
-    <button type = "submit" id = "centralCube" onclick = "javascript:window.location='./'"> Central Cube </button>
+
+    <button type = "submit" id = "originalCube" onclick = "javascript:window.location='./'"> Return to Original Cube </button>
+    
     <table>
         
         <?php

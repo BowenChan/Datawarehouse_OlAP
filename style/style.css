@@ -78,11 +78,18 @@ input[type=submit] {
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
+button{
+	text-align: center;
+}
 
 input:hover{
     background-color: #299195;
 }
-
+#centralCube{
+	text-align:center;
+	font-size: 20px;
+	color:white;
+}
 input[type=submit]:disabled {
     background: #dddddd;
 }

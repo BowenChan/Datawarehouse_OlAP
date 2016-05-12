@@ -8,9 +8,12 @@
 
 <body>
 
-    <button type = "submit" id = "centralCube" onclick = "javascript:window.location='./'"> Central Cube </button>
-    
+        <button type = "submit" id = "originalCube" onclick = "javascript:window.location='./'"> Return to Original Cube </button>
+        
     <table>
+        <?php 
+        include('header.php');
+        ?>
         <tr>
             <th>store_county</th>
             <th>department</th>                             
