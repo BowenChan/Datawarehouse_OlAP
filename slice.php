@@ -26,17 +26,11 @@
 
             array_unshift($_SESSION['currentSlice'], $sliceImplode);
             
-            include('header.php');
-            foreach ($_SESSION['attributes'] as $attr) {
-                $array = $attr."Array";
-                if(in_array($_POST['slice'], $_SESSION[$array])){
-                    echo "Inside " . $attr."Array";
-                }
-            }
+          
             
             $sql = createSqlStatement(True, $sliceImplode[1]);
             $result = $conn->query($sql);
-
+            include('header.php');
             
             echo "<tr>";
             displayTableAttributes("tr", null);

@@ -45,6 +45,7 @@
 		if($type === "drillDown"){
 			$neededAttributes = iterateNeededArray();
 			if($name === 'Dimension'){
+
 				foreach ($neededAttributes as $attr) {
 	                    echo '<input type="submit" value="'. ucfirst($attr) .'" name="'.$name.'"/>'; 					
 				}
@@ -132,8 +133,9 @@
         $length = count($_SESSION['attributes']);
         $i = 0;
         $string = "";
+
         foreach ($_SESSION['attributes'] as $attributes) {
-            $array = $attributes."Array";
+        	$array = $attributes."Array";
             if(++$i === $length && $select)
                 $string  .= lcfirst($_SESSION[$array][$_SESSION[$attributes]]) .";";
             else
@@ -168,11 +170,19 @@
     	$i = 0;
     	$sliceCounter = 0;
     	foreach ($_SESSION['attributes'] as $attr) {
-    		$string .= ucfirst($attr) . " ". substr(ucfirst($attr), 0, 1). ", ";
+    		if($attr === "promotion"){
+	    		$string .= ucfirst($attr) . " ". substr(ucfirst($attr), 0, 2). ", ";	
+    		}
+    		else
+	    		$string .= ucfirst($attr) . " ". substr(ucfirst($attr), 0, 1). ", ";
     	}
     	$string .= "SalesFact F Where ";
     	foreach ($_SESSION['attributes'] as $attr) {
-    		$firstLetter = substr(ucfirst($attr), 0, 1);
+    		if($attr === 'promotion'){
+    			$firstLetter = substr(ucfirst($attr), 0, 2);
+    		}
+    		else
+    			$firstLetter = substr(ucfirst($attr), 0, 1);
     		if(!$slice){
 	    		if(++$i === count($_SESSION['attributes'])){
 	    			
@@ -184,7 +194,7 @@
 			else
 				if(++$sliceCounter === count($_SESSION['attributes'])){
 					$arrayVar = $_SESSION['currentSlice'][0][0] . "Array";
-					$string .= $firstLetter . "." . $attr ."_key = F." .$attr . "_key AND " . substr(ucfirst($_SESSION['currentSlice'][0][0]),0,1) . "." . $_SESSION[$arrayVar][$_SESSION[$_SESSION['currentSlice'][0][0]]] . "='" . $spliceKeyword . "'";
+					$string .= $firstLetter . "." . $attr ."_key = F." .$attr . "_key AND " . $firstLetter . "." . $_SESSION[$arrayVar][$_SESSION[$_SESSION['currentSlice'][0][0]]] . "='" . $spliceKeyword . "'";
 				}
 				else 
 					$string .= $firstLetter . "." . $attr ."_key = F." .$attr . "_key AND ";

@@ -27,7 +27,7 @@
             $result = $conn->query($sql);
 
             include('header.php');
-            echo "<tr>";
+
             displayTableAttributes("tr", null);
             echo "</tr>";
             while($row = $result->fetch_assoc()) {
