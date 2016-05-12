@@ -17,7 +17,7 @@
     <table>
         
         <?php
-            
+            resetSlice();
             #Going +1 OF THE ARRAY
             if(isset($_POST['Hierarchy'])){
                 increaseHierarchy(lcfirst($_POST['Hierarchy']));

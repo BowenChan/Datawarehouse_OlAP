@@ -17,21 +17,38 @@
     <table>
         
         <?php
-            include('header.php');
-                $sliceImplode = explode(" | ", $_POST['slice']);
-                
-                $sliceImplode[0] = lcfirst($sliceImplode[0]);
-           
-                array_push($_SESSION['currentSlice'], $sliceImplode);
+            
+            $sliceImplode = explode(" | ", $_POST['slice']);
+            
+            $sliceImplode[0] = lcfirst($sliceImplode[0]);
+            
+            resetSlice();
 
-                foreach ($_SESSION['attributes'] as $attr) {
-                    $array = $attr."Array";
-                    if(in_array($_POST['slice'], $_SESSION[$array])){
-                        echo "Inside " . $attr."Array";
-                    }
+            array_unshift($_SESSION['currentSlice'], $sliceImplode);
+            
+            include('header.php');
+            foreach ($_SESSION['attributes'] as $attr) {
+                $array = $attr."Array";
+                if(in_array($_POST['slice'], $_SESSION[$array])){
+                    echo "Inside " . $attr."Array";
                 }
-                echo fromAndWhereClause(True, $sliceImplode[1]);
-          
+            }
+            
+            $sql = createSqlStatement(True, $sliceImplode[1]);
+            $result = $conn->query($sql);
+
+            
+            echo "<tr>";
+            displayTableAttributes("tr", null);
+            echo "</tr>";
+            while($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                
+                displayTableAttributes("td", $row);
+
+         
+                echo "</tr>";
+            }
 
             // //Central Cube 
             // $sql = "select store_county, department ,day_of_week, sum(dollar_sales) AS Dollar_Sales

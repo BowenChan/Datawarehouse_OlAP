@@ -14,7 +14,7 @@
     <table>
 
         <?php
-       
+            resetSlice();
             if(isset($_POST['Hierarchy'])){
                 decreaseHierarchy(lcfirst($_POST['Hierarchy']));
             }

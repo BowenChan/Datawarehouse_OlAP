@@ -188,6 +188,10 @@
     	return $string;
 
     }
+    function resetSlice(){
+    	if(!empty($_SESSION['currentSlice']))
+            unset($_SESSION['currentSlice'][0]);
+    }
     function createSqlStatement($slice, $spliceKeyword){
     	
     	$sql = "select ";
