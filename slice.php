@@ -26,11 +26,6 @@
 
                 foreach ($_SESSION['attributes'] as $attr) {
                     $array = $attr."Array";
-                    print_r($array);
-                    echo "<br>";
-                    print_r($_SESSION[$array]);
-                    echo "<br>";
-                    //echo $_SESSION[$array];
                     if(in_array($_POST['slice'], $_SESSION[$array])){
                         echo "Inside " . $attr."Array";
                     }

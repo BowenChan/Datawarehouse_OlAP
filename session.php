@@ -176,15 +176,8 @@
 			}
 			else
 				if(++$sliceCounter === count($_SESSION['attributes'])){
-					echo substr(ucfirst($_SESSION['currentSlice'][0][0]),0,1). "<br>";
-					echo $_SESSION[$_SESSION['currentSlice'][0][0]."Array"][$_SESSION[$attr]] . "<br>";
-					print_r($_SESSION[$_SESSION['currentSlice'][0][0]."Array"]);
-					echo "<br>";
-					echo $_SESSION[$attr] . "<br>";
-					echo array_search($_SESSION[$_SESSION['currentSlice'][0][0]."Array"][$_SESSION[$attr]], $_SESSION[$_SESSION['currentSlice'][0][0]."Array"]);
-					echo "<br>";
-					
-					$string .= $firstLetter . "." . $attr ."_key = F." .$attr . "_key AND " . substr(ucfirst($_SESSION['currentSlice'][0][0]),0,1) . "." . $_SESSION[$_SESSION['currentSlice'][0][0]."Array"][$_SESSION[$attr]] . "='" . $spliceKeyword . "'";
+					$arrayVar = $_SESSION['currentSlice'][0][0] . "Array";
+					$string .= $firstLetter . "." . $attr ."_key = F." .$attr . "_key AND " . substr(ucfirst($_SESSION['currentSlice'][0][0]),0,1) . "." . $_SESSION[$arrayVar][$_SESSION[$_SESSION['currentSlice'][0][0]]] . "='" . $spliceKeyword . "'";
 				}
 				else 
 					$string .= $firstLetter . "." . $attr ."_key = F." .$attr . "_key AND ";
