@@ -29,7 +29,7 @@
                 unset($_SESSION['attributes'][array_search(lcfirst($_POST['Dimension']), $_SESSION['attributes'])]);   
             }
 
-            $sql = createSqlStatement();
+            $sql = createSqlStatement(False, null);
             $result = $conn->query($sql);
 
             include('header.php');
@@ -38,7 +38,7 @@
             echo "</tr>";       
             while($row = $result->fetch_assoc()) {
                 echo "<tr>";
-                               
+
                 displayTableAttributes("td", $row);
 
          

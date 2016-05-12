@@ -76,14 +76,13 @@
             <p>Slice</p>
                 <div class = 'inputs'>         
                 <?php 
-                        foreach ($_SESSION['attributes'] as $attrSplice) {
-
-                            $sqlSplice = grabAllPossibleAttribute($attrSplice);
-                            
-                            $resultSplice = $conn->query($sqlSplice);
-                            while($rowSplice = $resultSplice->fetch_assoc())
+                        echo "Inside";
+                        foreach ($_SESSION['attributes'] as $attrSlice) {
+                            $sqlSlice = grabAllPossibleAttribute($attrSlice);
+                            $resultSlice = $conn->query($sqlSlice);
+                            while($rowSlice = $resultSlice->fetch_assoc())
                             {
-                                buttonCreate($rowSplice[$_SESSION[$attrSplice."Array"][$_SESSION[$attrSplice]]]);
+                                buttonCreate($attrSlice, $rowSlice[$_SESSION[$attrSlice."Array"][$_SESSION[$attrSlice]]]);
                                 //echo "<br>";
                             }
                         }

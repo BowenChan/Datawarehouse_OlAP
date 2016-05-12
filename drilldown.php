@@ -22,7 +22,7 @@
                 array_push($_SESSION['attributes'], lcfirst($_POST['Dimension']));
             }
 
-            $sql = createSqlStatement();
+            $sql = createSqlStatement(False, null);
             $result = $conn->query($sql);
 
             include('header.php');

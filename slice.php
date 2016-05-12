@@ -18,7 +18,24 @@
         
         <?php
             include('header.php');
-            
+                $sliceImplode = explode(" | ", $_POST['slice']);
+                
+                $sliceImplode[0] = lcfirst($sliceImplode[0]);
+           
+                array_push($_SESSION['currentSlice'], $sliceImplode);
+
+                foreach ($_SESSION['attributes'] as $attr) {
+                    $array = $attr."Array";
+                    print_r($array);
+                    echo "<br>";
+                    print_r($_SESSION[$array]);
+                    echo "<br>";
+                    //echo $_SESSION[$array];
+                    if(in_array($_POST['slice'], $_SESSION[$array])){
+                        echo "Inside " . $attr."Array";
+                    }
+                }
+                echo fromAndWhereClause(True, $sliceImplode[1]);
           
 
             // //Central Cube 

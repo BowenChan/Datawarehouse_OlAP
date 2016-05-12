@@ -84,9 +84,26 @@
             }
         }
 	};
-	function buttonCreate($attr){
-			echo '<input type ="submit" value="' . $attr . '" name="splice">';
+
+	function retrieveFirstElements(){
+		$returnArray = array();
+		foreach ($_SESSION['currentSlice'] as $sliceVar) {
+			array_push($returnArray, $sliceVar[0]);
+			# code...
+		}
+		return $returnArray;
+	}
+
+	function buttonCreate($type, $attr){
+		$sliceArray = retrieveFirstElements();
+	
+		if(!in_array($type, $sliceArray)) {
+			echo '<input type ="submit" value="' .  ucfirst($type) . " | " . $attr  . '" name="slice">';
+			# code...\
+		}
+	
 	};
+	
 	function iterateNeededArray(){
 		$newArray = array();
 		foreach ($_SESSION['allAttributes'] as $attr) {
@@ -123,7 +140,7 @@
         foreach ($_SESSION['attributes'] as $attributes) {
 
             $array = $attributes."Array";
-            
+
             if($type === "tr"){
                 
                 echo '<th>'. ucfirst($_SESSION[$array][$_SESSION[$attributes]]) .'</th>';
@@ -139,30 +156,52 @@
             echo '<td>' . $data["Dollar_Sales"] . '</td>';
     };  
 
-    function fromAndWhereClause(){
+    function fromAndWhereClause($slice, $spliceKeyword){
     	$string = "";
     	$i = 0;
+    	$sliceCounter = 0;
     	foreach ($_SESSION['attributes'] as $attr) {
     		$string .= ucfirst($attr) . " ". substr(ucfirst($attr), 0, 1). ", ";
     	}
     	$string .= "SalesFact F Where ";
     	foreach ($_SESSION['attributes'] as $attr) {
-    		if(++$i === count($_SESSION['attributes']))
-    			$string .= substr(ucfirst($attr), 0, 1) . "." . $attr ."_key = F." .$attr . "_key ";
-			else 
-				$string .= substr(ucfirst($attr), 0, 1) . "." . $attr ."_key = F." .$attr . "_key AND ";
+    		$firstLetter = substr(ucfirst($attr), 0, 1);
+    		if(!$slice){
+	    		if(++$i === count($_SESSION['attributes'])){
+	    			echo "Checking this one <br> <br>";
+	    			$string .= $firstLetter . "." . $attr ."_key = F." .$attr . "_key ";
+	    		}
+				else
+					$string .= $firstLetter . "." . $attr ."_key = F." .$attr . "_key AND ";
+			}
+			else
+				if(++$sliceCounter === count($_SESSION['attributes'])){
+					echo substr(ucfirst($_SESSION['currentSlice'][0][0]),0,1). "<br>";
+					echo $_SESSION[$_SESSION['currentSlice'][0][0]."Array"][$_SESSION[$attr]] . "<br>";
+					print_r($_SESSION[$_SESSION['currentSlice'][0][0]."Array"]);
+					echo "<br>";
+					echo $_SESSION[$attr] . "<br>";
+					echo array_search($_SESSION[$_SESSION['currentSlice'][0][0]."Array"][$_SESSION[$attr]], $_SESSION[$_SESSION['currentSlice'][0][0]."Array"]);
+					echo "<br>";
+					
+					$string .= $firstLetter . "." . $attr ."_key = F." .$attr . "_key AND " . substr(ucfirst($_SESSION['currentSlice'][0][0]),0,1) . "." . $_SESSION[$_SESSION['currentSlice'][0][0]."Array"][$_SESSION[$attr]] . "='" . $spliceKeyword . "'";
+				}
+				else 
+					$string .= $firstLetter . "." . $attr ."_key = F." .$attr . "_key AND ";
+				
+				
     	}
 
     	return $string;
 
     }
-    function createSqlStatement(){
+    function createSqlStatement($slice, $spliceKeyword){
     	
     	$sql = "select ";
 
     	$sql .= iterateAttributes(False) . " sum(dollar_sales) AS Dollar_Sales ";
 
-    	$sql .= "From " . fromAndWhereClause();
+    	$sql .= "From " . fromAndWhereClause($slice, $spliceKeyword);
 
     	$sql .= "Group By " . iterateAttributes(True);
 
