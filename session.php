@@ -1,6 +1,8 @@
-
+<?php
+    include('dbconnect.php');
+?>
 <?php session_start();
-	include('dbconnect.php');
+	
 #Setting the dynamic session variables
 	function setSessions(){
 	    $_SESSION['allAttributes'] = array("store", "product", "time", "promotion");
@@ -20,22 +22,6 @@
     function grabAllPossibleAttribute($attr){
     	
     	$sql = "select distinct " . $_SESSION[$attr."Array"][$_SESSION[$attr]] . " FROM " . ucfirst($attr);
-
-    	// $i = 0;
-    	// foreach ($_SESSION['attributes'] as $attr) {
-    	// 	if(++$i === count($_SESSION['attributes']))
-    	// 		$sql .= $_SESSION[$attr."Array"][$_SESSION[$attr]] . " FROM ";
-    	// 	else
-    	// 		$sql .= $_SESSION[$attr."Array"][$_SESSION[$attr]] . ", ";
-    	// }
-    	// $i = 0;
-    	// foreach ($_SESSION['attributes'] as $attr) {
-    	// 	if(++$i === count($_SESSION['attributes']))
-    	// 		$sql .= ucfirst($attr) . ";";
-    	// 	else
-    	// 		$sql .= ucfirst($attr) . ", ";
-    	// }
-    	  
     	return $sql;
     };
 
@@ -72,20 +58,38 @@
 		echo '</div>';
 	};
 
-	function createSpliceList(){
+	function createSliceList(){
+        /*
 		foreach ($_SESSION['attributes'] as $attr) {
 
             $sql = grabAllPossibleAttribute($attr);
-            echo $sql;
             $result = $conn->query($sql);
             while($row = $result->fetch_assoc())
             {
                 buttonCreate($row[$_SESSION[$attr."Array"][$_SESSION[$attr]]]);
                 echo "<br>";
             }
+        }*/
+        foreach ($_SESSION['attributes'] as $attrSlice) {
+            $sqlSlice = grabAllPossibleAttribute($attrSlice);
+            $resultSlice = $conn->query($sqlSlice);
+            while($rowSlice = $resultSlice->fetch_assoc())
+            {
+                buttonCreate($attrSlice, $rowSlice[$_SESSION[$attrSlice."Array"][$_SESSION[$attrSlice]]]);
+                //echo "<br>";
+            }
         }
 	};
 
+	function createDiceList(){
+			foreach ($_SESSION['attributes'] as $attributes) {
+                $sql = grabAllPossibleAttribute($attr);
+                $result = $conn->query($sql);
+                while($row = $result->fetch_assoc()){
+    				echo "<label>" . $attributes . ": " . "<input type = 'checkbox' name ='" . $attributes . "' value ='" .$row[$_SESSION[$attr."Array"][$_SESSION[$attr]]] . ">";
+                }
+			}
+	}
 	function retrieveFirstElements(){
 		$returnArray = array();
 		foreach ($_SESSION['currentSlice'] as $sliceVar) {
@@ -189,7 +193,7 @@
     		}
     		else if(isset($_SESSION['currentSlice'][0][0]))
     			$secondLetter = substr(ucfirst($_SESSION['currentSlice'][0][0]), 0, 1);
-    		
+
     		if(!$slice){
 	    		if(++$i === count($_SESSION['attributes'])){
 	    			
@@ -212,6 +216,77 @@
     	return $string;
 
     }
+
+    function FromAndWhereClauseDice($store, $time, $product, $promotion){
+        $string = "";
+        $j =  0;
+        $varCounter = 0;
+        $firstLetter = "";
+        $checkCounter;
+        $k = 0;
+
+        foreach ($_SESSION['attributes'] as $attr) {
+            if($attr === "promotion"){
+                $string .= ucfirst($attr) . " ". substr(ucfirst($attr), 0, 2). ", ";    
+            }
+            else
+                $string .= ucfirst($attr) . " ". substr(ucfirst($attr), 0, 1). ", ";
+        }
+        $string .= "SalesFact F Where ";
+        foreach ($_SESSION['attributes'] as $attr) {
+            if($attr === 'promotion'){
+                $firstLetter = substr(ucfirst($attr), 0, 2);
+            }        
+            else
+                $firstLetter = substr(ucfirst($attr), 0, 1);
+
+            $string .= $firstLetter . "." . $attr ."_key = F." .$attr . "_key AND ";
+        }
+        foreach ($_SESSION['attributes'] as $attr) {
+            if($$attr != null)
+                $varCounter++;
+        }
+
+        foreach ($_SESSION['attributes'] as $attr) {
+
+            if($attr === 'promotion'){
+                $firstLetter = substr(ucfirst($attr), 0, 2);
+            }
+            else
+                $firstLetter = substr(ucfirst($attr), 0, 1);
+
+            $check = $$attr;
+            $arrayVar = $attr . "Array";
+            if($check != null){
+
+                $checkCounter = count($check);
+                $string .= "(";
+
+                if(++$j === $varCounter)
+                    foreach ($check as $diceKey) {
+                        # code...
+                        if(++$k === $checkCounter)
+                            $string .=  $firstLetter . "." . $_SESSION[$arrayVar][$_SESSION[$attr]] . "='" . $diceKey . "') ";
+                        else
+                            $string .=  $firstLetter ."." . $_SESSION[$arrayVar][$_SESSION[$attr]] . "='" . $diceKey . "' OR ";
+                    }
+                   
+                else
+                    foreach ($check as $diceKey) {
+                        # code...
+                        if(++$k === $checkCounter)
+                            $string .=  $firstLetter . "." . $_SESSION[$arrayVar][$_SESSION[$attr]] . "='" . $diceKey . "') AND ";
+                        else
+                            $string .=  $firstLetter . "." . $_SESSION[$arrayVar][$_SESSION[$attr]] . "='" . $diceKey . "' OR ";
+                    }
+                $k = 0;  
+               
+            }
+            # code...
+        }
+        return $string;
+
+    }
     function resetSlice(){
     	if(!empty($_SESSION['currentSlice']))
             unset($_SESSION['currentSlice'][0]);
@@ -228,5 +303,18 @@
 
 
     	return $sql;
+    }
+    function createSqlDiceStatement($store, $time, $product,$promotion){
+        
+        $sql = "select ";
+
+        $sql .= iterateAttributes(False) . " sum(dollar_sales) AS Dollar_Sales ";
+
+        $sql .= "From " . fromAndWhereClauseDice($store, $time, $product, $promotion);
+        
+        $sql .= "Group By " . iterateAttributes(True);
+
+
+        return $sql;
     }
  ?>

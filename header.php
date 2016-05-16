@@ -110,6 +110,19 @@
         <form method="post" action="dice.php">
             <div class = 'inputs'>
                 <p>Dice</p>
+                <?php
+
+                    foreach ($_SESSION['attributes'] as $attrDice) {
+                       
+                        echo "<label>" . ucFirst($attrDice) .":  ";
+                        $sqlDice = grabAllPossibleAttribute($attrDice);
+                        $resultDice = $conn->query($sqlDice);
+                        while($rowDice = $resultDice->fetch_assoc()){
+                            echo "<label><input type = 'checkbox' name ='" . $attrDice . "[]' value ='" .$rowDice[$_SESSION[$attrDice."Array"][$_SESSION[$attrDice]]] . "''>    " . $rowDice[$_SESSION[$attrDice."Array"][$_SESSION[$attrDice]]] . "  </label>" ;
+                        }
+                        echo "<br><br>";
+                    }
+                ?>
                 <input type="submit" value="Dice" />
             </div>
         </form>

@@ -97,3 +97,7 @@ input:hover{
 input[type=submit]:disabled {
     background: #dddddd;
 }
+
+label{
+    color:white;
+}
