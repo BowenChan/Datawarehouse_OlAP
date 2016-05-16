@@ -17,6 +17,7 @@
     <table>
 
     <?php
+        resetSlice();
         if(empty($_POST['store'])){
             $_POST['store'] = null;
         }
